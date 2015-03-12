@@ -1,0 +1,19 @@
+box: wercker/ruby
+build:
+  steps:
+    - rvm-use:
+      version: 2.0.0
+    - bundle-install
+deploy:
+  steps:
+    - script:
+        name: pws
+        code: |-
+          mkdir ~/bin
+          wget -O ~/bin/cf https://github.com/rastasheep/trash-can/blob/master/out/cf?raw=true
+          chmod +x ~/bin/cf
+          export PATH=$PATH:~/bin
+          cf api https://api.run.pivotal.io
+          cf auth $PWS_USERNAME $PWS_PASSWORD
+          cf target -o $PWS_TARGET -s development
+          cf push rails_sample_app -n rails_sample_app_test
