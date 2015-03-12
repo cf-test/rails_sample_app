@@ -1,8 +1,6 @@
 box: wercker/ruby
 build:
   steps:
-    - rvm-use:
-        version: 2.0.0
     - bundle-install
     - script:
         name: rspec
